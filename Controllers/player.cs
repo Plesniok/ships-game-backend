@@ -162,4 +162,40 @@ public class PlayerApiController : ControllerBase
             )
         );
     }
+
+    [HttpGet("index")]
+    public IActionResult GetPlayerId(
+        [FromQuery] string tableName,
+        [FromQuery] string playerName
+    )
+    {
+        
+        if(!ShipsServiceInstance.ifTableExist(tableName)){
+            return BadRequest(
+                ResponseService.InfoResponse(
+                    "Game does not exist",
+                    "10002"
+                )
+            );
+        }
+
+        int ? playerWithTour = ShipsServiceInstance.GetPlayerTour(
+            tableName
+        );
+
+        if(playerWithTour == null){
+            return StatusCode(
+                503,
+                ResponseService.InfoResponse(
+                    "Get player with tour service unavailable",
+                    "10003"
+                )
+            );
+        }
+        return Ok(
+            ResponseService.GetPlayerWithTour(
+                playerWithTour
+            )
+        );
+    }
 }
