@@ -179,22 +179,35 @@ public class PlayerApiController : ControllerBase
             );
         }
 
-        int ? playerWithTour = ShipsServiceInstance.GetPlayerTour(
-            tableName
+        int? ifPlayerExists = ShipsServiceInstance.GetPlayerIdByName(
+            tableName,
+            playerName
         );
 
-        if(playerWithTour == null){
+        if(ifPlayerExists == null){
             return StatusCode(
                 503,
                 ResponseService.InfoResponse(
-                    "Get player with tour service unavailable",
+                    "Get player id by name service unavailable",
                     "10003"
                 )
             );
         }
+
+        if(ifPlayerExists == 0){
+            return BadRequest(
+                ResponseService.InfoResponse(
+                    "Player does not exist in given Game",
+                    "10002"
+                )
+            );
+        }
+
+        
+
         return Ok(
-            ResponseService.GetPlayerWithTour(
-                playerWithTour
+            ResponseService.CreateGetPlayerByNameResponse(
+                ifPlayerExists
             )
         );
     }
