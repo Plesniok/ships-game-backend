@@ -17,6 +17,7 @@ C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debu
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Npgsql.dll
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -36,4 +37,3 @@ C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\obj\Debu
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\obj\Debug\net6.0\ShipBackend.pdb
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\obj\Debug\net6.0\ShipBackend.genruntimeconfig.cache
 C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\obj\Debug\net6.0\ref\ShipBackend.dll
-C:\Users\damia\Desktop\studiaGWSH\programowanie\ShipBackend\ShipBackend\bin\Debug\net6.0\Npgsql.dll
