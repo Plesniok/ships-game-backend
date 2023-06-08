@@ -52,4 +52,29 @@ public class GameApiController : ControllerBase
             )
         );
     }
+
+    [HttpGet("is-locked")]
+    public IActionResult GetIfGameIsLocked([FromQuery] string tableName)
+    {
+    if(!ShipsServiceInstance.ifTableExist(tableName)){
+        return BadRequest(
+            ResponseService.InfoResponse(
+                "Game does not exist",
+                "10002"
+            )
+        );
+    }
+    if(ShipsServiceInstance.ifTableIsLocked(tableName)){
+        return Ok(
+            ResponseService.GetIfGameIsLocked(
+                true
+            )
+        );
+    }
+    return Ok(
+        ResponseService.GetIfGameIsLocked(
+            false
+        )
+    );
+    }
 }

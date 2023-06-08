@@ -38,4 +38,10 @@ public class ResponseService {
             playerId = playerId
         };
     }
+
+    public static SuccessGetIfGameIsLocked GetIfGameIsLocked(bool ? ifGameIsLocked){
+        return new SuccessGetIfGameIsLocked(){
+            ifGameIsLocked = ifGameIsLocked
+        };
+    }
 }

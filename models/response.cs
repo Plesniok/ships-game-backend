@@ -28,3 +28,7 @@ public record SuccessGetPlayerWithTour
     { 
         public int ? playerId { get; set; }
     }
+public record SuccessGetIfGameIsLocked 
+    { 
+        public bool ? ifGameIsLocked { get; set; }
+    }
