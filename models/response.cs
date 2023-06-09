@@ -17,7 +17,7 @@ public record SuccessCreateGameResponse
 
 public record SuccessGetPlayerByName 
     { 
-        public int ? playerIndex { get; set; }
+        public int ? playerId { get; set; }
     }
 public record SuccessGetPlayerShips 
     { 

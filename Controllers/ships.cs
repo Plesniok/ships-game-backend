@@ -19,7 +19,7 @@ public class ShipsApiController : ControllerBase
     [HttpGet("all/available")]
     public IActionResult GetAvailable(
         [FromQuery] string tableName,
-        [FromQuery] string playerName
+        [FromQuery] int playerId
     )
     {
         if(!ShipsServiceInstance.ifTableExist(tableName)){
@@ -31,9 +31,9 @@ public class ShipsApiController : ControllerBase
             );
         }
 
-        int? ifPlayerExists = ShipsServiceInstance.GetPlayerIdByName(
+        List<string>? ifPlayerExists = ShipsServiceInstance.GetPlayerNameById(
             tableName,
-            playerName
+            playerId
         );
 
         if(ifPlayerExists == null){
@@ -46,7 +46,7 @@ public class ShipsApiController : ControllerBase
             );
         }
 
-        if(ifPlayerExists == 0){
+        if(ifPlayerExists.Count() == 0){
             return BadRequest(
                 ResponseService.InfoResponse(
                     "Player does not exist in given Game",
@@ -57,7 +57,7 @@ public class ShipsApiController : ControllerBase
 
         List<Point> ships = ShipsServiceInstance.GetPlayerAvailableShips(
             tableName,
-            ifPlayerExists
+            playerId
         );
 
         return Ok(
@@ -70,7 +70,7 @@ public class ShipsApiController : ControllerBase
     [HttpGet("all/not-available")]
     public IActionResult GetNotAvailable(
         [FromQuery] string tableName,
-        [FromQuery] string playerName
+        [FromQuery] int playerId
     )
     {
         if(!ShipsServiceInstance.ifTableExist(tableName)){
@@ -82,9 +82,9 @@ public class ShipsApiController : ControllerBase
             );
         }
 
-        int? ifPlayerExists = ShipsServiceInstance.GetPlayerIdByName(
+        List<string>? ifPlayerExists = ShipsServiceInstance.GetPlayerNameById(
             tableName,
-            playerName
+            playerId
         );
 
         if(ifPlayerExists == null){
@@ -97,7 +97,7 @@ public class ShipsApiController : ControllerBase
             );
         }
 
-        if(ifPlayerExists == 0){
+        if(ifPlayerExists.Count() == 0){
             return BadRequest(
                 ResponseService.InfoResponse(
                     "Player does not exist in given Game",
@@ -106,9 +106,9 @@ public class ShipsApiController : ControllerBase
             );
         }
 
-        List<Point> ships = ShipsServiceInstance.GetPlayerAvailableShips(
+        List<Point> ships = ShipsServiceInstance.GetPlayerNotAvailableShips(
             tableName,
-            ifPlayerExists
+            playerId
         );
 
         return Ok(
@@ -207,7 +207,7 @@ public class ShipsApiController : ControllerBase
     [HttpGet("all/missed")]
     public IActionResult GetAllMissed(
         [FromQuery] string tableName,
-        [FromQuery] string playerName
+        [FromQuery] int playerId
     )
     {
         if(!ShipsServiceInstance.ifTableExist(tableName)){
@@ -219,9 +219,9 @@ public class ShipsApiController : ControllerBase
             );
         }
 
-        int? ifPlayerExists = ShipsServiceInstance.GetPlayerIdByName(
+        List<string>? ifPlayerExists = ShipsServiceInstance.GetPlayerNameById(
             tableName,
-            playerName
+            playerId
         );
 
         if(ifPlayerExists == null){
@@ -233,8 +233,7 @@ public class ShipsApiController : ControllerBase
                 )
             );
         }
-
-        if(ifPlayerExists == 0){
+        if(ifPlayerExists.Count() == 0){
             return BadRequest(
                 ResponseService.InfoResponse(
                     "Player does not exist in given Game",
@@ -245,7 +244,7 @@ public class ShipsApiController : ControllerBase
 
         List<Point> ships = ShipsServiceInstance.GetPlayerMissedShips(
             tableName,
-            ifPlayerExists
+            playerId
         );
 
         return Ok(

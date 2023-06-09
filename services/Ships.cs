@@ -10,11 +10,12 @@ public class ShipsService{
         
     }
     public TableName CreateGame(string playerName, List<Point> ships){
+        DatabaseInstance.ConnectToDatabase();
         try{
             TableName NewTableName = new TableName();
             NewTableName.tableName = "1";
             List<TableName> allTables = DatabaseInstance.GetAllTables();
-            int playerIndex = 1;
+            int playerId = 1;
 
             NewTableName.tableName = RandomScript.GetRandomTableName();
             
@@ -28,57 +29,67 @@ public class ShipsService{
             this.DatabaseInstance.AddPlayer(
                 NewTableName.tableName,
                 playerName,
-                playerIndex
+                playerId
             );
 
             foreach(Point ship in ships){
                 DatabaseInstance.AssignShip(
                     ship,
-                    playerIndex,
+                    playerId,
                     NewTableName.tableName
                 );
             }
             
+            DatabaseInstance.DisconnectDatabase();
             return NewTableName;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return new TableName();
         }
     }
     public bool ifTableExist(string tableName){
+        DatabaseInstance.ConnectToDatabase();
         try{
             List<TableName> ifTableExist = DatabaseInstance.GetTable(tableName);
             if(ifTableExist.Count == 0){
+                DatabaseInstance.DisconnectDatabase();
                 return false;
             }
 
+            DatabaseInstance.DisconnectDatabase();
             return true;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return false;
         }
     }
     
 
     public bool ifTableIsLocked(string tableName){
+        DatabaseInstance.ConnectToDatabase();
         try{
             
-
-            return DatabaseInstance.ifTableIsLocked(tableName);
+            bool ifGameIsLocked = DatabaseInstance.ifTableIsLocked(tableName);
+            DatabaseInstance.DisconnectDatabase();
+            return ifGameIsLocked;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return false;
         }
     }
     public int? GetPlayerIdByName(string tableName, string playerName){
+        DatabaseInstance.ConnectToDatabase();
         try{
-            int[] playerIndexes = {1,2}; 
+            int[] playerIds = {1,2}; 
             int correctIndex = 0;
             
-            foreach (int id in playerIndexes){
+            foreach (int id in playerIds){
                 List<string> ifPlayerExists = DatabaseInstance.GetPlayerById(
                     tableName,
                     playerName,
@@ -90,15 +101,39 @@ public class ShipsService{
             }
 
 
+            DatabaseInstance.DisconnectDatabase();
             return correctIndex;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
+            return null;
+        }
+    }
+
+    public List<string>? GetPlayerNameById(string tableName, int playerId){
+        DatabaseInstance.ConnectToDatabase();
+        try{
+            
+            List<string> ifPlayerExists = DatabaseInstance.GetPlayerByName(
+                tableName,
+                playerId
+            );
+            
+            
+
+            DatabaseInstance.DisconnectDatabase();
+            return ifPlayerExists;
+        }
+        catch(Exception err){
+            Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
 
     public List<Point>? GetPlayerAvailableShips(string tableName, int? playerId){
+        DatabaseInstance.ConnectToDatabase();
         try{
             
             List<Point> listOfPoints = DatabaseInstance.GetPlayerAvailableShips(
@@ -106,15 +141,18 @@ public class ShipsService{
                 playerId
             );
             
+            DatabaseInstance.DisconnectDatabase();
             return listOfPoints;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
 
     public List<Point>? GetPlayerNotAvailableShips(string tableName, int? playerId){
+        DatabaseInstance.ConnectToDatabase();
         try{
             
             List<Point> listOfPoints = DatabaseInstance.GetPlayerNotAvailableShips(
@@ -122,15 +160,18 @@ public class ShipsService{
                 playerId
             );
             
+            DatabaseInstance.DisconnectDatabase();
             return listOfPoints;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
 
     public List<Point>? GetPlayerMissedShips(string tableName, int? playerId){
+        DatabaseInstance.ConnectToDatabase();
         try{
             
             List<Point> listOfPoints = DatabaseInstance.GetPlayerMissedShips(
@@ -138,38 +179,46 @@ public class ShipsService{
                 playerId
             );
             
+            DatabaseInstance.DisconnectDatabase();
             return listOfPoints;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
 
     public int? GetEnemyPlayer(int? playerId){
+        DatabaseInstance.ConnectToDatabase();
         try{
             
             if(playerId == 1){
+                DatabaseInstance.DisconnectDatabase();
                 return 2;
             }
             if(playerId == 2){
+                DatabaseInstance.DisconnectDatabase();
                 return 1;
             }
+            DatabaseInstance.DisconnectDatabase();
             return 0;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
     public bool UpdatePlayer(string tableName, string playerName, List<Point> ships){
+        DatabaseInstance.ConnectToDatabase();
         try{
-            int playerIndex = 2;
+            int playerId = 2;
 
             DatabaseInstance.UpdatePlayer(
                 tableName,
                 playerName, 
-                playerIndex
+                playerId
             );
             
             DatabaseInstance.LockGame(
@@ -184,15 +233,18 @@ public class ShipsService{
                 );
             }
 
+            DatabaseInstance.DisconnectDatabase();
             return true;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return false;
         }
     }
 
     public bool ? UpdatePlayerTour(string tableName, int ? playerId){
+        DatabaseInstance.ConnectToDatabase();
         try{
 
             DatabaseInstance.UpdatePlayerTour(
@@ -201,28 +253,37 @@ public class ShipsService{
             );
             
 
+            DatabaseInstance.DisconnectDatabase();
             return true;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
 
     public int ? GetPlayerTour(string tableName){
+        DatabaseInstance.ConnectToDatabase();
         try{
-            return DatabaseInstance.GetPlayerTour(
+            int playerId = DatabaseInstance.GetPlayerTour(
                 tableName 
             )[0];
+
+            DatabaseInstance.DisconnectDatabase();
+            
+            return playerId; 
             
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
 
     public int? DestroyEnemyShip(string tableName, int? enemyPlayer, Point ship){
+        DatabaseInstance.ConnectToDatabase();
         try{
 
             int? destroyedShips = DatabaseInstance.DestroyShip(
@@ -231,15 +292,18 @@ public class ShipsService{
                 ship
             );
 
+            DatabaseInstance.DisconnectDatabase();
             return destroyedShips;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }
 
     public bool ? AssignMissShot(string tableName, int? enemyPlayer, Point ship){
+        DatabaseInstance.ConnectToDatabase();
         try{
 
             DatabaseInstance.AssignMissShot(
@@ -248,10 +312,12 @@ public class ShipsService{
                 ship
             );
 
+            DatabaseInstance.DisconnectDatabase();
             return true;
         }
         catch(Exception err){
             Console.WriteLine(err.ToString());
+            DatabaseInstance.DisconnectDatabase();
             return null;
         }
     }

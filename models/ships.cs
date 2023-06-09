@@ -30,7 +30,7 @@ public record AddPlayer
 
  public record SetPlayerTour 
  { 
-    public string ? playerName { get; set; }
+    public int playerId { get; set; }
    public string ? tableName { get; set; }
  }
  public record Ships 

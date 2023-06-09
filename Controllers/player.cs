@@ -87,11 +87,10 @@ public class PlayerApiController : ControllerBase
             );
         }
 
-        int? ifPlayerExists = ShipsServiceInstance.GetPlayerIdByName(
+        List<string>? ifPlayerExists = ShipsServiceInstance.GetPlayerNameById(
             requestBody.tableName,
-            requestBody.playerName
+            requestBody.playerId
         );
-
         if(ifPlayerExists == null){
             return StatusCode(
                 503,
@@ -102,7 +101,7 @@ public class PlayerApiController : ControllerBase
             );
         }
 
-        if(ifPlayerExists == 0){
+        if(ifPlayerExists.Count() == 0){
             return BadRequest(
                 ResponseService.InfoResponse(
                     "Player does not exist in given Game",
@@ -113,7 +112,7 @@ public class PlayerApiController : ControllerBase
 
         bool ? serviceStatus = ShipsServiceInstance.UpdatePlayerTour(
             requestBody.tableName,
-            ifPlayerExists
+            requestBody.playerId
         );
 
         if(serviceStatus == null){

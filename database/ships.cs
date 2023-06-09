@@ -8,10 +8,23 @@ public class ShipsDB
    public NpgsqlConnection connection { get; set; }
    
    public ShipsDB(){
-        var connString = "Server=ships-postgres;Port=5432;Database=ships;User Id=postgres;Password=passwd123;";
+        var connString = "Server=localhost;Port=5432;Database=ships;User Id=postgres;Password=passwd123;";
         this.connection = new NpgsqlConnection(connString);
-        this.connection.Open();
+        
    }
+
+    public void ConnectToDatabase(){
+        this.connection.Open();
+    }
+
+    public void DisconnectDatabase(){
+        try{
+            this.connection.Close();
+        }
+        catch(InvalidOperationException connectionException){
+        }
+
+    }
 
     public List<TableName> GetAllTables(){
         
@@ -93,6 +106,30 @@ public class ShipsDB
             string playerNameRow = reader.GetString(0);
             result.Add(
                 playerNameRow
+            );
+        }
+        return result;
+    }
+
+    public List<string> GetPlayerByName(
+        string tableName, 
+        int playerId
+    ){
+
+        using var cmd = new NpgsqlCommand(
+            $@"SELECT player{playerId} FROM {tableName}_details 
+            WHERE player{playerId} IS NOT NULL;", 
+            this.connection
+        );
+
+        using var reader = cmd.ExecuteReader();
+        List<string> result = new List<string>();
+    
+        while (reader.Read())
+        {
+            string playerIdRow = reader.GetString(0);
+            result.Add(
+                playerIdRow
             );
         }
         return result;
@@ -212,20 +249,20 @@ public class ShipsDB
         cmd.ExecuteNonQuery();
     }
 
-    public void AddPlayer(string tableName, string newPlayerName, int playerIndex){
+    public void AddPlayer(string tableName, string newPlayerName, int playerId){
         
         using var cmd = new NpgsqlCommand(
-            $@"INSERT INTO {tableName}_details (player{playerIndex}) 
+            $@"INSERT INTO {tableName}_details (player{playerId}) 
             VALUES ('{newPlayerName}');", this.connection
         );
         cmd.ExecuteNonQuery();
     }
 
-    public void AssignShip(Point ship, int playerIndex, string tableName){
+    public void AssignShip(Point ship, int playerId, string tableName){
         
         using var cmd = new NpgsqlCommand(
             $@"INSERT INTO {tableName}_ships (player_id, x, y) 
-            VALUES ({playerIndex}, {ship.x}, {ship.y});", this.connection
+            VALUES ({playerId}, {ship.x}, {ship.y});", this.connection
         );
         cmd.ExecuteNonQuery();
     }
@@ -239,10 +276,10 @@ public class ShipsDB
         cmd.ExecuteNonQuery();
     }
 
-    public void UpdatePlayer(string tableName, string newPlayerName, int playerIndex){
+    public void UpdatePlayer(string tableName, string newPlayerName, int playerId){
         
         using var cmd = new NpgsqlCommand(
-            $@"UPDATE {tableName}_details SET player{playerIndex} = '{newPlayerName}';", 
+            $@"UPDATE {tableName}_details SET player{playerId} = '{newPlayerName}';", 
             this.connection
         );
         cmd.ExecuteNonQuery();

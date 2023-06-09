@@ -21,9 +21,9 @@ public class ResponseService {
         };
     }
     
-    public static SuccessGetPlayerByName CreateGetPlayerByNameResponse(int? playerIndex){
+    public static SuccessGetPlayerByName CreateGetPlayerByNameResponse(int? playerId){
         return new SuccessGetPlayerByName(){
-            playerIndex = playerIndex
+            playerId = playerId
         };
     }
 
