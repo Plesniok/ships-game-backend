@@ -8,7 +8,7 @@ public class ShipsDB
    public NpgsqlConnection connection { get; set; }
    
    public ShipsDB(){
-        var connString = "Server=localhost;Port=5432;Database=ships;User Id=postgres;Password=passwd123;";
+        var connString = "Server=ships-postgres;Port=5432;Database=ships;User Id=postgres;Password=passwd123;";
         this.connection = new NpgsqlConnection(connString);
         
    }
